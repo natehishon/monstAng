@@ -1,0 +1,15 @@
+mat-card {
+  width: 80%;
+  margin: auto; }
+  mat-card mat-spinner {
+    margin: auto; }
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 15px; }
+  mat-form-field input {
+    display: block; }
+  mat-form-field textarea {
+    display: block; }
+
+/*# sourceMappingURL=course-create.component.css.map */

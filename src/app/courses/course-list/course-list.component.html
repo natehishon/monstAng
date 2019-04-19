@@ -1,0 +1,14 @@
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-accordion *ngIf="courses.length > 0 && !isLoading">
+  <mat-expansion-panel *ngFor="let course of courses">
+    <mat-expansion-panel-header>
+      {{ course.name }}
+    </mat-expansion-panel-header>
+    <p>{{ course.description }}</p>
+    <mat-action-row *ngIf="userIsAuthenticated">
+      <a mat-button color="accent" [routerLink]="['/edit', course.id]" >EDIT</a>
+      <button mat-button color="warn" (click)="onDelete(course.id)">DELETE</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+<p *ngIf="courses.length <= 0 && !isLoading" class="mat-body-1 info-text">No courses</p>

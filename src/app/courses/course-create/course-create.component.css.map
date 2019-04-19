@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,QAAQ;EACN,KAAK,EAAE,GAAG;EACV,MAAM,EAAE,IAAI;EAEZ,oBAAW;IACT,MAAM,EAAE,IAAI;;AAKhB,cAAc;EACZ,KAAK,EAAE,IAAI;EACX,aAAa,EAAE,IAAI;EACnB,oBAAM;IAEJ,OAAO,EAAE,KAAK;EAEhB,uBAAQ;IACN,OAAO,EAAE,KAAK",
+"sources": ["course-create.component.scss"],
+"names": [],
+"file": "course-create.component.css"
+}

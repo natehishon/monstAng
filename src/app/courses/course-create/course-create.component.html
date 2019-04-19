@@ -1,0 +1,34 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onSaveCourse(postForm)" #postForm="ngForm" *ngIf="!isLoading">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        [ngModel]="course?.name"
+        name="name"
+        required
+        minlength="3"
+        #name="ngModel">
+          <mat-error *ngIf="name.invalid">Please enter a course name.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        rows="5"
+        name="description"
+        [ngModel]="course?.description"
+        required
+        #description="ngModel">
+      </textarea>
+      <mat-error *ngIf="description.invalid">Please enter a course description.</mat-error>
+    </mat-form-field>
+    <br>
+    <button
+      mat-raised-button
+      color="accent"
+      type="submit">Save Course
+    </button>
+  </form>
+</mat-card>
+
