@@ -4,6 +4,10 @@ import {AuthData} from './auth-data.model';
 import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
 
+import {environment} from '../../environments/environment';
+
+const BACKEND_URL = environment.apiUrl + '/user/';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +15,7 @@ import {Router} from '@angular/router';
 export class AuthService {
   private isAuthenticated = false;
   private token: string;
-  private tokenTimer: NodeJS.Timer;
+  private tokenTimer: any;
   private authStatusListener = new Subject<boolean>()
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -31,15 +35,15 @@ export class AuthService {
   createUser(email: string, password: string) {
     const authData: AuthData = {email: email, password: password};
     console.log(email);
-    this.http.post("http://localhost:3000/api/user/signup", authData)
+    this.http.post(BACKEND_URL + 'signup', authData)
       .subscribe(response => {
-        console.log(response);
+        this.router.navigate(['login']);
       });
   }
 
   login(email: string, password: string) {
     const authData: AuthData = {email: email, password: password};
-    this.http.post<{token: string, expiresIn: number}>('http://localhost:3000/api/user/login', authData)
+    this.http.post<{token: string, expiresIn: number}>(BACKEND_URL + 'login', authData)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
@@ -78,7 +82,7 @@ export class AuthService {
     this.authStatusListener.next(false);
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
-    this.router.navigate(['/']);
+    this.router.navigate(['login']);
   }
 
   private setAuthTimer(duration: number) {
