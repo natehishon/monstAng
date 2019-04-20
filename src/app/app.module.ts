@@ -9,18 +9,20 @@ import {
   MatButtonModule,
   MatToolbarModule,
   MatExpansionModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule, MatDatepicker, MatDatepickerToggle, MatDatepickerModule, MatNativeDateModule, MatSelectModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { CourseCreateComponent } from './courses/course-create/course-create.component';
 import { HeaderComponent} from './header/header.component';
 import { CourseListComponent} from './courses/course-list/course-list.component';
-import {CourseService} from './courses/course.service';
 import {AppRoutingModule} from './app-routing.module';
 import {LoginComponent} from './auth/login/login.component';
 import {SignUpComponent} from './auth/signup/signup.component';
 import {AuthInterceptor} from './auth/auth-interceptor';
+import {CourseTrackingCreateComponent} from './course-tracking/course-tracking-create/course-tracking-create.component';
+import {CourseTrackingListComponent} from './course-tracking/course-tracking-list/course-tracking-list.component';
+import {MainPageComponent} from './main-page/main-page.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +30,12 @@ import {AuthInterceptor} from './auth/auth-interceptor';
     CourseCreateComponent,
     HeaderComponent,
     CourseListComponent,
+    CourseTrackingListComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    CourseTrackingCreateComponent,
+    MainPageComponent
+
   ],
   imports: [
     BrowserModule,
@@ -42,6 +48,9 @@ import {AuthInterceptor} from './auth/auth-interceptor';
     MatToolbarModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
     HttpClientModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],

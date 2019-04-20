@@ -18,6 +18,16 @@ export class CourseService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  formatTime(date: Date) {
+
+    let datestring = '';
+
+    datestring = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+
+    return datestring;
+
+  }
+
   getCourses() {
     // new array
     this.http
@@ -29,6 +39,9 @@ export class CourseService {
           return {
             name: course.name,
             description: course.description,
+            startDate: this.formatTime(new Date(course.startDate)),
+            endDate: this.formatTime(new Date(course.endDate)),
+            program: course.program,
             id: course._id
           };
         });
@@ -44,12 +57,11 @@ export class CourseService {
   }
 
   getCourse(id: string) {
-    // spread operator
-    return this.http.get<{_id: string, name: string, description: string }>(BACKEND_URL + '/' + id);
+    return this.http.get<{_id: string, name: string, description: string, startDate: string, endDate: string, program: string }>(BACKEND_URL + '/' + id);
   }
 
-  addCourse(name: string, description: string) {
-    const course: Course = { id: null, name: name, description: description };
+  addCourse(name: string, description: string, startDate: string, endDate: string, program: string ) {
+    const course: Course = { id: null, name: name, description: description, startDate: startDate, endDate: endDate, program: program };
     this.http.post<{ message: string, courseId: string }>(BACKEND_URL, course)
       .subscribe(responseData => {
         const id = responseData.courseId;
@@ -60,8 +72,8 @@ export class CourseService {
       });
   }
 
-  updateCourse(id: string, name: string, description: string) {
-    const course: Course = { id: id, name: name, description: description};
+  updateCourse(id: string, name: string, description: string, startDate: string, endDate: string, program: string) {
+    const course: Course = { id: id, name: name, description: description, startDate: startDate, endDate: endDate, program: program};
     this.http
       .put(BACKEND_URL + '/' + id, course)
       .subscribe(response => {

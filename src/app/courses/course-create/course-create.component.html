@@ -24,6 +24,30 @@
       <mat-error *ngIf="description.invalid">Please enter a course description.</mat-error>
     </mat-form-field>
     <br>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" name="startDate" [ngModel]="course?.startDate" placeholder="Choose a class starting date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker2" name="endDate" [ngModel]="course?.endDate" placeholder="Choose a class starting date">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field>
+      <mat-label>Program of Study</mat-label>
+      <mat-select name="program" [ngModel]="course?.program">
+        <mat-option *ngFor="let program of programs"  [value]="program.value">
+          {{program.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <br>
+
     <button
       mat-raised-button
       color="accent"

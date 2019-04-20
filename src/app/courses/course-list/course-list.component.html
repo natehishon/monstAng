@@ -5,9 +5,13 @@
       {{ course.name }}
     </mat-expansion-panel-header>
     <p>{{ course.description }}</p>
+    <p>{{ course.startDate }}</p>
+    <p>{{ course.endDate }}</p>
+    <p>{{ course.program }}</p>
     <mat-action-row *ngIf="userIsAuthenticated">
-      <a mat-button color="accent" [routerLink]="['/edit', course.id]" >EDIT</a>
-      <button mat-button color="warn" (click)="onDelete(course.id)">DELETE</button>
+      <a mat-button color="accent" [routerLink]="['/enroll', course.id]" >ENROLL</a>
+      <a mat-button color="accent" [routerLink]="['/edit', course.id]"*ngIf="userIsAdmin" >EDIT</a>
+      <button mat-button color="warn" (click)="onDelete(course.id)" *ngIf="userIsAdmin">DELETE</button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>

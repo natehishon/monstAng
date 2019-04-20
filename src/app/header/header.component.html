@@ -5,6 +5,12 @@
   <span class="spacer"></span>
   <ul>
     <li *ngIf="userIsAuthenticated">
+      <a mat-button routerLink="/courses" routerLinkActive="mat-accent">Courses</a>
+    </li>
+    <li *ngIf="userIsAuthenticated">
+      <a mat-button routerLink="/courseTrackings" routerLinkActive="mat-accent">My Courses</a>
+    </li>
+    <li *ngIf="userIsAuthenticated && isAdmin">
       <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Course</a>
     </li>
     <li *ngIf="!userIsAuthenticated">

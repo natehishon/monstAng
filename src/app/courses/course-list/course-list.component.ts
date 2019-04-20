@@ -16,7 +16,9 @@ export class CourseListComponent implements OnInit, OnDestroy {
   isLoading = false;
   private courseSub: Subscription;
   private authStatusSub: Subscription;
+  private adminStatusSub: Subscription;
   public userIsAuthenticated = false;
+  public userIsAdmin = false;
 
   // public keyword will auto create a new prop and fill it
   constructor(public courseService: CourseService, private authService: AuthService) {}
@@ -30,11 +32,17 @@ export class CourseListComponent implements OnInit, OnDestroy {
       this.courses = courses;
     });
     this.userIsAuthenticated = this.authService.getIsAuth();
+    this.userIsAdmin = this.authService.getIsAdmin();
     this.authStatusSub = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
       this.userIsAuthenticated = isAuthenticated;
     });
+    this.adminStatusSub = this.authService
+      .getAdminStatusListener()
+      .subscribe(isAdmin => {
+        this.userIsAdmin = isAdmin;
+      });
   }
 
   onDelete(courseId: string) {
@@ -44,5 +52,6 @@ export class CourseListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.courseSub.unsubscribe();
     this.authStatusSub.unsubscribe();
+    this.adminStatusSub.unsubscribe();
   }
 }

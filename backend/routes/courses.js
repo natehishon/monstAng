@@ -7,7 +7,10 @@ const router = express.Router();
 router.post("", checkAuth, (req, res, next) => {
   const course = new CourseModel({
     name: req.body.name,
-    description: req.body.description
+    description: req.body.description,
+    startDate: req.body.startDate,
+    endDate: req.body.endDate,
+    program: req.body.program
   });
   course.save().then(
     createdCourse => {
@@ -23,7 +26,10 @@ router.put("/:id", checkAuth, (req, res, next) => {
   const course = new CourseModel({
     _id: req.body.id,
     name: req.body.name,
-    description: req.body.description
+    description: req.body.description,
+    startDate: req.body.startDate,
+    endDate: req.body.endDate,
+    program: req.body.program
   })
   CourseModel.updateOne({_id: req.params.id}, course).then(result => {
     console.log("updated");
