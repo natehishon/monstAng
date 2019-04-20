@@ -11,7 +11,7 @@ import {Subscription} from 'rxjs';
 export class MainPageComponent implements OnInit, OnDestroy {
 
   private userSub: Subscription;
-  private user;
+  public user;
 
   constructor(private authService: AuthService) {}
 
@@ -24,6 +24,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
+    this.userSub.unsubscribe();
   }
 }

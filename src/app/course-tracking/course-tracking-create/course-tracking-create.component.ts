@@ -31,7 +31,7 @@ export class CourseTrackingCreateComponent implements OnInit {
         this.isLoading = true;
         this.courseService.getCourse(this.courseId).subscribe(courseData => {
           this.isLoading = false;
-          this.course = {id: courseData._id, name: courseData.name, description: courseData.description};
+          this.course = {id: courseData._id, name: courseData.name, description: courseData.description, startDate: courseData.startDate, endDate: courseData.endDate, program: courseData.program};
           console.log(this.course);
         });
 
