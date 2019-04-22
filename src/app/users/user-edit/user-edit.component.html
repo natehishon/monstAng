@@ -1,0 +1,79 @@
+
+
+<mat-card>
+  <form (submit)="onSaveUser(userForm)" #userForm="ngForm">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        [ngModel]="user?.email"
+        name="email"
+        disabled
+        placeholder="email"
+        #name="ngModel">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        [ngModel]="user?.name"
+        name="name"
+        placeholder="user name"
+        #name="ngModel">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field>
+      <mat-label>Major</mat-label>
+      <mat-select name="major" [ngModel]="user?.major">
+        <mat-option *ngFor="let major of majors"  [value]="major.value">
+          {{major.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field>
+      <mat-label>Degree</mat-label>
+      <mat-select name="degree" [ngModel]="user?.degree">
+        <mat-option *ngFor="let degree of degrees"  [value]="degree.value">
+          {{degree.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+
+    <br>
+    <mat-form-field *ngIf="isAdmin">
+      <input
+        matInput
+        type="text"
+        [ngModel]="user?.gpa"
+        name="gpa"
+        placeholder="gpa"
+        #gpa="ngModel">
+    </mat-form-field>
+    <br>
+
+    <mat-form-field *ngIf="isAdmin">
+      <mat-label>Role</mat-label>
+      <mat-select name="role" [ngModel]="user?.role">
+        <mat-option *ngFor="let role of roles"  [value]="role.value">
+          {{role.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <br>
+
+    <button
+      mat-raised-button
+      color="accent"
+      type="submit">Save User
+    </button>
+  </form>
+</mat-card>
+

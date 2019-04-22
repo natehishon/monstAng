@@ -6,6 +6,8 @@ import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
 
 import {environment} from '../../environments/environment';
+import {map} from 'rxjs/operators';
+import {Course} from '../courses/course.model';
 
 const BACKEND_URL = environment.apiUrl + '/user/';
 
@@ -20,8 +22,10 @@ export class AuthService {
   private tokenTimer: any;
   private authStatusListener = new Subject<boolean>()
   private authAdminListener = new Subject<boolean>()
-  private userListener = new Subject<User>()
-  public user: User
+  private userListener = new Subject<AuthData>()
+  public user: AuthData
+  private users: User[] = [];
+  private usersUpdated = new Subject<User[]>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -35,6 +39,42 @@ export class AuthService {
 
   getUser() {
     return this.user;
+  }
+
+  getUserById(id: string) {
+    return this.http.get<{
+      _id: string,
+      name: string,
+      email: string,
+      role: string,
+      password: string,
+      major: string,
+      degree: string,
+      gpa: string
+    }>(BACKEND_URL + '/' + id);
+  }
+
+  getUsers() {
+    this.http
+      .get<{message: string, users: any }>(
+        BACKEND_URL
+      )
+      .pipe(map(userData => {
+        return userData.users.map(user => {
+          return {
+            email: user.email,
+            id: user._id
+          };
+        });
+      }))
+      .subscribe((userData) => {
+        this.users = userData;
+        this.usersUpdated.next([...this.users]);
+      });
+  }
+
+  getUsersUpdateListener() {
+    return this.usersUpdated.asObservable();
   }
 
   getIsAdmin() {
@@ -54,7 +94,7 @@ export class AuthService {
   }
 
   createUser(email: string, password: string) {
-    const authData: AuthData = {email: email, password: password};
+    const authData: AuthData = {email: email, password: password, id: ''};
     console.log(email);
     this.http.post(BACKEND_URL + 'signup', authData)
       .subscribe(response => {
@@ -63,8 +103,8 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    const authData: AuthData = {email: email, password: password};
-    this.http.post<{token: string, role: string, email: string, expiresIn: number}>(BACKEND_URL + 'login', authData)
+    const authData: AuthData = {email: email, password: password, id: ''};
+    this.http.post<{token: string, role: string, id: string, email: string, expiresIn: number}>(BACKEND_URL + 'login', authData)
       .subscribe(response => {
         const token = response.token;
         const role = response.role;
@@ -86,13 +126,14 @@ export class AuthService {
           this.authStatusListener.next(true);
           const user = {
             email: response.email,
-            role: ''
+            id: response.id,
+            password: ''
           }
           this.user = user;
           this.userListener.next(user);
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-          this.saveAuthData(token, expirationDate, role, response.email);
+          this.saveAuthData(token, expirationDate, role, response.email, response.id);
           this.router.navigate(['/']);
         }
       });
@@ -112,7 +153,8 @@ export class AuthService {
       this.authStatusListener.next(true);
       const user = {
         email: authInformation.email,
-        role: ''
+        password: '',
+        id: authInformation.id
       }
       this.user = user;
       this.authStatusListener.next(true);
@@ -133,6 +175,20 @@ export class AuthService {
 
   }
 
+  updateUser(id: string, name: string, email: string, role: string, password: string, major: string, degree: string, gpa: string) {
+    const user: User = { id, name, email, role, password, major, degree, gpa};
+    this.http
+      .put(BACKEND_URL + '/' + id, user)
+      .subscribe(response => {
+        const updatedUsers = [...this.users];
+        const oldUserIndex = updatedUsers.findIndex(u => u.id === user.id);
+        updatedUsers[oldUserIndex] = user;
+        this.users = updatedUsers;
+        this.usersUpdated.next([...this.users]);
+        this.router.navigate(['users']);
+      });
+  }
+
   logout() {
     this.token = null;
     this.isAuthenticated = false;
@@ -151,16 +207,20 @@ export class AuthService {
     }, duration * 1000);
   }
 
-  private saveAuthData(token: string, expirationDate: Date, role: string, email: string) {
+  private saveAuthData(token: string, expirationDate: Date, role: string, email: string, id: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
     localStorage.setItem('role', role);
     localStorage.setItem('email', email);
+    localStorage.setItem('id', id);
   }
 
   private clearAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('expiration');
+    localStorage.removeItem('email');
+    localStorage.removeItem('id');
   }
 
   private getAuthData() {
@@ -168,14 +228,16 @@ export class AuthService {
     const expirationDate = localStorage.getItem('expiration');
     const role = localStorage.getItem('role');
     const email = localStorage.getItem('email');
-    if (!token || !expirationDate || !role || !email) {
+    const id = localStorage.getItem('id');
+    if (!token || !expirationDate || !role || !email || !id) {
       return;
     }
     return {
       token: token,
       expirationDate: new Date(expirationDate),
       role: role,
-      email: email
+      email: email,
+      id: id
     };
   }
 }

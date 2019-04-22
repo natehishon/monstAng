@@ -4,10 +4,10 @@
     <mat-expansion-panel-header>
       {{ course.name }}
     </mat-expansion-panel-header>
-    <p>{{ course.description }}</p>
-    <p>{{ course.startDate }}</p>
-    <p>{{ course.endDate }}</p>
-    <p>{{ course.program }}</p>
+    <p>Description: {{ course.description }}</p>
+    <p>Start Date: {{ course.startDate }}</p>
+    <p>End Date: {{ course.endDate }}</p>
+    <p>Program of Study: {{ course.program }}</p>
     <mat-action-row *ngIf="userIsAuthenticated">
       <a mat-button color="accent" [routerLink]="['/enroll', course.id]" >ENROLL</a>
       <a mat-button color="accent" [routerLink]="['/edit', course.id]"*ngIf="userIsAdmin" >EDIT</a>

@@ -1,7 +1,13 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <p>{{course.id}}</p>
-  <p>{{userId}}</p>
+  <p>{{course?.name}}</p>
+  <p>Description: {{course?.description}}</p>
+  <p>Start Date: {{course?.startDate}}</p>
+  <p>End Date: {{course?.endDate}}</p>
+  <p>Program of Study: {{course?.program}}</p>
+  <p>Term: {{course?.term}}</p>
+  <p>Schedule: {{course?.scheduleTime}}</p>
+  <p>Credits: {{course?.credits}}</p>
 
   <button mat-button (click)="enroll()" *ngIf="!isEnrolled" ><span id="logout">Enroll</span></button>
 </mat-card>

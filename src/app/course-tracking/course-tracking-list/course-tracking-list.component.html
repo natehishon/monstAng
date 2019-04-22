@@ -1,15 +1,67 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-accordion *ngIf="courseTrackings.length > 0 && !isLoading">
-  <mat-expansion-panel *ngFor="let courseTracking of courseTrackings">
-    <mat-expansion-panel-header>
-      {{ courseTracking.courseName }}
-    </mat-expansion-panel-header>
-    <p>{{ courseTracking.status }}</p>
-    <!--<mat-action-row *ngIf="userIsAuthenticated">-->
-      <!--<a mat-button color="accent" [routerLink]="['/enroll', course.id]" >ENROLL</a>-->
-      <!--<a mat-button color="accent" [routerLink]="['/edit', course.id]" >EDIT</a>-->
-      <!--<button mat-button color="warn" (click)="onDelete(course.id)">DELETE</button>-->
-    <!--</mat-action-row>-->
-  </mat-expansion-panel>
-</mat-accordion>
-<p *ngIf="courseTrackings.length <= 0 && !isLoading" class="mat-body-1 info-text">No courses</p>
+<p>Completed: Courses</p>
+<table mat-table [dataSource]="completedCourses" class="mat-elevation-z8" *ngIf="completedCourses.length > 0">
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.status}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="courseName">
+    <th mat-header-cell *matHeaderCellDef> Course </th>
+    <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.courseName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="grade">
+    <th mat-header-cell *matHeaderCellDef> Grade </th>
+    <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.grade}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="term">
+    <th mat-header-cell *matHeaderCellDef> Term </th>
+    <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.term}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="credits">
+    <th mat-header-cell *matHeaderCellDef> Credits </th>
+    <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.credits}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<br>
+
+<p *ngIf="completedCourses.length <= 0 && !isLoading" class="mat-body-1 info-text">No courses</p>
+
+<p>Current Courses: </p>
+<table mat-table [dataSource]="currentCourses" class="mat-elevation-z8" *ngIf="currentCourses.length > 0">
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.status}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="courseName">
+    <th mat-header-cell *matHeaderCellDef> Course </th>
+    <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.courseName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="grade">
+    <th mat-header-cell *matHeaderCellDef> Grade </th>
+    <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.grade}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="term">
+    <th mat-header-cell *matHeaderCellDef> Term </th>
+    <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.term}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="credits">
+    <th mat-header-cell *matHeaderCellDef> Credits </th>
+    <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.credits}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<p *ngIf="currentCourses.length <= 0 && !isLoading" class="mat-body-1 info-text">No courses</p>
+

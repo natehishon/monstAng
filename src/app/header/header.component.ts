@@ -12,6 +12,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAdmin = false;
   private authListenerSubs: Subscription;
   private isAdminSub: Subscription;
+  private userSub: Subscription;
+  public user;
 
   constructor(private authService: AuthService) {}
 
@@ -24,6 +26,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isAdminSub = this.authService.getAdminStatusListener().subscribe(isAdmin => {
       this.isAdmin = isAdmin;
     });
+
+    this.user = this.authService.getUser();
+    this.userSub = this.authService.getUserListener().subscribe(user => {
+      this.user = user;
+    });
   }
 
   onLogout() {
@@ -33,6 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.authListenerSubs.unsubscribe();
     this.isAdminSub.unsubscribe();
+    this.userSub.unsubscribe();
   }
 
 }

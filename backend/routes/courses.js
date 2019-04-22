@@ -1,6 +1,7 @@
 const express = require('express');
 const CourseModel = require('../models/course');
 const checkAuth = require('../middleware/check-auth');
+const checkAdmin = require('../middleware/check-admin');
 
 const router = express.Router();
 
@@ -10,7 +11,10 @@ router.post("", checkAuth, (req, res, next) => {
     description: req.body.description,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
-    program: req.body.program
+    program: req.body.program,
+    scheduleTime: req.body.scheduleTime,
+    credits: req.body.credits,
+    term: req.body.term
   });
   course.save().then(
     createdCourse => {
@@ -29,7 +33,10 @@ router.put("/:id", checkAuth, (req, res, next) => {
     description: req.body.description,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
-    program: req.body.program
+    program: req.body.program,
+    scheduleTime: req.body.scheduleTime,
+    credits: req.body.credits,
+    term: req.body.term
   })
   CourseModel.updateOne({_id: req.params.id}, course).then(result => {
     console.log("updated");

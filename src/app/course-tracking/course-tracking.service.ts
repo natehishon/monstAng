@@ -33,7 +33,11 @@ export class CourseTrackingService {
         return courseTrackingData.courseTrackings.map(courseTracking => {
           return {
             courseName: courseTracking.courseName,
-            status: courseTracking.status
+            status: courseTracking.status,
+            grade: courseTracking.grade,
+            term: courseTracking.term,
+            credits: courseTracking.credits,
+            scheduleTime: courseTracking.scheduleTime
           };
         });
       }))
@@ -47,14 +51,21 @@ export class CourseTrackingService {
     return this.courseTrackingUpdated.asObservable();
   }
 
-  enroll(courseId: string, courseName: string) {
+  enroll(courseId: string, courseName: string, program: string, term: string, credits: number, scheduleTime: string) {
     const course = {
-      courseId: courseId,
-      courseName: courseName
+      courseId,
+      courseName,
+      program,
+      term,
+      credits,
+      scheduleTime
     }
 
-    this.http.post<{courseId: string, courseName: string }>(BACKEND_URL, course)
+    console.log('2');
+
+    this.http.post<{courseId: string, courseName: string, program: string, term: string, credits: number, scheduleTime: string }>(BACKEND_URL, course)
       .subscribe(responseData => {
+        console.log("successss");
         console.log(responseData);
         this.router.navigate(['courseTrackings']);
         // const id = responseData.courseId;

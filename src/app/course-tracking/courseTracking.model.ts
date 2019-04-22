@@ -4,4 +4,7 @@ export interface CourseTracking {
   userId: string;
   status: string;
   courseName: string;
+  program: string;
+  credits: number;
+  term: string;
 }

@@ -7,6 +7,16 @@ const User = require("../models/user");
 
 const router = express.Router();
 
+router.get("/:id", (req, res, next) => {
+  User.findById(req.params.id).then(user => {
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({message: 'User Not Found'});
+    }
+  })
+});
+
 router.post("/signup", (req, res, next) => {
   console.log(req.body.email);
   bcrypt.hash(req.body.password, 10).then(hash => {
@@ -50,7 +60,7 @@ router.post("/login", (req, res, next) => {
         });
       }
       const token = jwt.sign(
-        { email: fetchedUser.email, userId: fetchedUser._id },
+        { email: fetchedUser.email, userId: fetchedUser._id, role: fetchedUser.role },
         process.env.JWT_KEY,
         { expiresIn: "1h" }
       );
@@ -58,6 +68,7 @@ router.post("/login", (req, res, next) => {
         token: token,
         role: fetchedUser.role,
         email: fetchedUser.email,
+        id: fetchedUser._id,
         expiresIn: 3600
       });
     })
@@ -68,5 +79,30 @@ router.post("/login", (req, res, next) => {
     });
 });
 
+router.get("", (req, res, next) => {
+  User.find().then(documents => {
+    res.status(200).json({
+      message: 'post success',
+      users: documents
+    });
+  });
+});
+
+router.put("/:id", (req, res, next) => {
+  const user = new User({
+    _id: req.body.id,
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    role: req.body.role,
+    major: req.body.major,
+    degree: req.body.degree,
+    gpa: req.body.gpa
+  })
+  User.updateOne({_id: req.params.id}, user).then(result => {
+    console.log("updated");
+    res.status(200).json({ message: 'update success'})
+  });
+});
 
 module.exports = router;

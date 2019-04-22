@@ -31,7 +31,17 @@ export class CourseTrackingCreateComponent implements OnInit {
         this.isLoading = true;
         this.courseService.getCourse(this.courseId).subscribe(courseData => {
           this.isLoading = false;
-          this.course = {id: courseData._id, name: courseData.name, description: courseData.description, startDate: courseData.startDate, endDate: courseData.endDate, program: courseData.program};
+          this.course = {
+            id: courseData._id,
+            name: courseData.name,
+            description: courseData.description,
+            startDate: courseData.startDate,
+            endDate: courseData.endDate,
+            program: courseData.program,
+            scheduleTime: courseData.scheduleTime,
+            credits: courseData.credits,
+            term: courseData.term
+          };
           console.log(this.course);
         });
 
@@ -55,7 +65,8 @@ export class CourseTrackingCreateComponent implements OnInit {
   }
 
   enroll() {
-    this.courseTrackingService.enroll(this.courseId, this.course.name);
+    console.log('trying to enroll');
+    this.courseTrackingService.enroll(this.courseId, this.course.name, this.course.program, this.course.term, this.course.credits, this.course.scheduleTime);
   }
 
 }

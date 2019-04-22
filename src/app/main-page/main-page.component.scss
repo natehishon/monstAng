@@ -1,0 +1,30 @@
+.welcome{
+  margin: 30px 0;
+  font-size: 25px;
+  font-weight: 400;
+  padding: 10px;
+}
+
+.semester-schedule-title{
+  font-size: 22px;
+  font-weight: 700;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.overview-container{
+  margin: 30px 0;
+  .table-container-yo{
+    width: 400px;
+    padding: 10px;
+    table{
+      width: 100%;
+      table-layout: fixed;
+    }
+  }
+}
+
+.semester-container{
+  margin: 30px 0;
+}
+

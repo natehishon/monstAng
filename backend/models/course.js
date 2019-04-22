@@ -5,6 +5,9 @@ const courseSchema = mongoose.Schema({
   description: {type: String, required: true },
   startDate: {type: String},
   endDate: {type: String},
+  scheduleTime: {type: String},
+  term: {type: String},
+  credits: {type: Number},
   program: {type: String}
 });
 

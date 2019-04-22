@@ -8,4 +8,8 @@ mat-spinner {
 .info-text {
   text-align: center; }
 
+table {
+  width: 100%;
+  table-layout: fixed; }
+
 /*# sourceMappingURL=course-tracking-list.component.css.map */

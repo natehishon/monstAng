@@ -16,7 +16,7 @@ export class CourseCreateComponent implements OnInit {
   isLoading = false;
   private mode = 'create';
   private courseId: string;
-  course: Course;
+  course: any;
 
   programs: any[] = [
     {value: 'Scaring', viewValue: 'Scaring'},
@@ -34,7 +34,17 @@ export class CourseCreateComponent implements OnInit {
         this.isLoading = true;
         this.courseService.getCourse(this.courseId).subscribe(courseData => {
           this.isLoading = false;
-          this.course = {id: courseData._id, name: courseData.name, description: courseData.description, startDate: courseData.startDate, endDate: courseData.endDate, program: courseData.program};
+          this.course = {
+            id: courseData._id,
+            name: courseData.name,
+            description: courseData.description,
+            startDate: new Date(courseData.startDate),
+            endDate: new Date (courseData.endDate),
+            program: courseData.program,
+            scheduleTime: courseData.scheduleTime,
+            credits: courseData.credits,
+            term: courseData.term
+          };
         });
       } else {
         this.mode = 'create';
@@ -55,9 +65,28 @@ export class CourseCreateComponent implements OnInit {
     this.isLoading = true;
 
     if (this.mode === 'create') {
-      this.courseService.addCourse(form.value.name, form.value.description, form.value.startDate, form.value.endDate, form.value.program);
+      this.courseService.addCourse(
+        form.value.name,
+        form.value.description,
+        form.value.startDate,
+        form.value.endDate,
+        form.value.program,
+        form.value.scheduleTime,
+        form.value.credits,
+        form.value.term
+      );
     } else {
-      this.courseService.updateCourse(this.courseId, form.value.name, form.value.description, form.value.startDate, form.value.endDate, form.value.program);
+      this.courseService.updateCourse(
+        this.courseId,
+        form.value.name,
+        form.value.description,
+        form.value.startDate,
+        form.value.endDate,
+        form.value.program,
+        form.value.scheduleTime,
+        form.value.credits,
+        form.value.term
+      );
     }
     form.resetForm();
   }

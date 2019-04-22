@@ -9,7 +9,7 @@ import {
   MatButtonModule,
   MatToolbarModule,
   MatExpansionModule,
-  MatProgressSpinnerModule, MatDatepicker, MatDatepickerToggle, MatDatepickerModule, MatNativeDateModule, MatSelectModule
+  MatProgressSpinnerModule, MatDatepicker, MatDatepickerToggle, MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatTableModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -23,13 +23,17 @@ import {AuthInterceptor} from './auth/auth-interceptor';
 import {CourseTrackingCreateComponent} from './course-tracking/course-tracking-create/course-tracking-create.component';
 import {CourseTrackingListComponent} from './course-tracking/course-tracking-list/course-tracking-list.component';
 import {MainPageComponent} from './main-page/main-page.component';
+import {UserListComponent} from './users/user-list/user-list.component';
+import {UserEditComponent} from './users/user-edit/user-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CourseCreateComponent,
+    UserEditComponent,
     HeaderComponent,
     CourseListComponent,
+    UserListComponent,
     CourseTrackingListComponent,
     LoginComponent,
     SignUpComponent,
@@ -51,6 +55,7 @@ import {MainPageComponent} from './main-page/main-page.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatTableModule,
     HttpClientModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],

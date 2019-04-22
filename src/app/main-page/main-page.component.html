@@ -1,1 +1,53 @@
-<p>Current person: {{user.email}}</p>
+<h1 class="welcome">Welcome {{userById.name}}</h1>
+
+<div class="overview-container">
+  <h3 class="semester-schedule-title">Overview</h3>
+  <div class="table-container-yo">
+    <table>
+      <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th>Cumulative Gpa:</th>
+        <td>{{userById.gpa}}</td>
+      </tr>
+      <tr>
+        <th>Degree</th>
+        <td>{{userById.degree}}</td>
+      </tr>
+      <tr>
+        <th>Major</th>
+        <td>{{userById.major}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="semester-container">
+  <h3 class="semester-schedule-title">Current Semester Schedule</h3>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Class</th>
+      <th>Schedule</th>
+      <th></th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let courseTracking of courseTrackings">
+
+      <th>{{courseTracking?.courseName}}</th>
+      <td>{{courseTracking?.scheduleTime}}</td>
+
+    </tr>
+
+    </tbody>
+  </table>
+</div>

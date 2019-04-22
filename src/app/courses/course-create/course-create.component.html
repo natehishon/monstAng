@@ -4,6 +4,7 @@
     <mat-form-field>
       <input
         matInput
+        placeholder="Course Name"
         type="text"
         [ngModel]="course?.name"
         name="name"
@@ -15,7 +16,8 @@
     <mat-form-field>
       <textarea
         matInput
-        rows="5"
+        placeholder="Course Description"
+        rows="3"
         name="description"
         [ngModel]="course?.description"
         required
@@ -35,6 +37,44 @@
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
+    <br>
+
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Term"
+        type="text"
+        [ngModel]="course?.term"
+        name="term"
+        minlength="3"
+        #term="ngModel">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Schedule Time"
+        type="text"
+        [ngModel]="course?.scheduleTime"
+        name="scheduleTime"
+        minlength="3"
+        #scheduleTime="ngModel">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Credit Amount"
+        type="number"
+        [ngModel]="course?.credits"
+        name="credits"
+        #credits="ngModel">
+    </mat-form-field>
+
     <br>
 
     <mat-form-field>

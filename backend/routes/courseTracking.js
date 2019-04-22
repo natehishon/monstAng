@@ -10,7 +10,13 @@ router.post("", checkAuth, (req, res, next) => {
     courseId: req.body.courseId,
     userId: req.userData.userId,
     status: "ACTIVE",
-    courseName: req.body.courseName
+    courseName: req.body.courseName,
+    program: req.body.program,
+    term: req.body.term,
+    credits: req.body.credits,
+    grade: '',
+    scheduleTime: req.body.scheduleTime
+
   });
   courseTracking.save().then(
     createdCourseTracking => {

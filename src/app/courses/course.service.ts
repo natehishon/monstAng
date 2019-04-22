@@ -20,11 +20,18 @@ export class CourseService {
 
   formatTime(date: Date) {
 
-    let datestring = '';
+    let monthNames = [
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    ];
 
-    datestring = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    let day = date.getDate();
+    let monthIndex = date.getMonth();
+    let year = date.getFullYear();
 
-    return datestring;
+    return day + ' ' + monthNames[monthIndex] + ' ' + year;
 
   }
 
@@ -39,9 +46,12 @@ export class CourseService {
           return {
             name: course.name,
             description: course.description,
-            startDate: this.formatTime(new Date(course.startDate)),
-            endDate: this.formatTime(new Date(course.endDate)),
+            startDate: course.startDate,
+            endDate: course.endDate,
             program: course.program,
+            scheduleTime: course.scheduleTime,
+            credits: course.credits,
+            term: course.term,
             id: course._id
           };
         });
@@ -57,11 +67,40 @@ export class CourseService {
   }
 
   getCourse(id: string) {
-    return this.http.get<{_id: string, name: string, description: string, startDate: string, endDate: string, program: string }>(BACKEND_URL + '/' + id);
+    return this.http.get<{
+      _id: string,
+      name: string,
+      description: string,
+      startDate: string,
+      endDate: string,
+      program: string,
+      scheduleTime: string,
+      credits: number,
+      term: string
+    }>(BACKEND_URL + '/' + id);
   }
 
-  addCourse(name: string, description: string, startDate: string, endDate: string, program: string ) {
-    const course: Course = { id: null, name: name, description: description, startDate: startDate, endDate: endDate, program: program };
+  addCourse(
+    name: string,
+    description: string,
+    startDate: string,
+    endDate: string,
+    program: string,
+    scheduleTime: string,
+    credits: number,
+    term: string
+  ) {
+    const course: Course = {
+      id: null,
+      name,
+      description,
+      startDate: this.formatTime(new Date (startDate)),
+      endDate: this.formatTime(new Date (endDate)),
+      program,
+      scheduleTime,
+      credits,
+      term
+    };
     this.http.post<{ message: string, courseId: string }>(BACKEND_URL, course)
       .subscribe(responseData => {
         const id = responseData.courseId;
@@ -72,8 +111,28 @@ export class CourseService {
       });
   }
 
-  updateCourse(id: string, name: string, description: string, startDate: string, endDate: string, program: string) {
-    const course: Course = { id: id, name: name, description: description, startDate: startDate, endDate: endDate, program: program};
+  updateCourse(
+    id: string,
+    name: string,
+    description: string,
+    startDate: string,
+    endDate: string,
+    program: string,
+    scheduleTime: string,
+    credits: number,
+    term: string
+  ) {
+    const course: Course = {
+      id,
+      name,
+      description,
+      startDate: this.formatTime(new Date (startDate)),
+      endDate: this.formatTime(new Date (endDate)),
+      program,
+      scheduleTime,
+      credits,
+      term
+    };
     this.http
       .put(BACKEND_URL + '/' + id, course)
       .subscribe(response => {

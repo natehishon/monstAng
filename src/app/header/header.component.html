@@ -5,10 +5,16 @@
   <span class="spacer"></span>
   <ul>
     <li *ngIf="userIsAuthenticated">
-      <a mat-button routerLink="/courses" routerLinkActive="mat-accent">Courses</a>
+      <a mat-button [routerLink]="['/editUser', user.id]" routerLinkActive="mat-accent">My Profile</a>
+    </li>
+    <li *ngIf="userIsAuthenticated && isAdmin">
+      <a mat-button routerLink="/users" routerLinkActive="mat-accent">Users</a>
     </li>
     <li *ngIf="userIsAuthenticated">
-      <a mat-button routerLink="/courseTrackings" routerLinkActive="mat-accent">My Courses</a>
+      <a mat-button routerLink="/courses" routerLinkActive="mat-accent">Course List</a>
+    </li>
+    <li *ngIf="userIsAuthenticated">
+      <a mat-button routerLink="/courseTrackings" routerLinkActive="mat-accent">My Progress</a>
     </li>
     <li *ngIf="userIsAuthenticated && isAdmin">
       <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Course</a>
