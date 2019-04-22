@@ -1,5 +1,5 @@
 <!--<mat-spinner *ngIf="isLoading"></mat-spinner>-->
-<mat-accordion *ngIf="users.length > 0 && !isLoading">
+<mat-accordion *ngIf="users.length > 0">
   <mat-expansion-panel *ngFor="let user of users">
     <mat-expansion-panel-header>
       {{ user?.email }}
