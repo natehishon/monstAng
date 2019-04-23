@@ -1,6 +1,6 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <p>Completed: Courses</p>
-<table mat-table [dataSource]="completedCourses" class="mat-elevation-z8" *ngIf="completedCourses.length > 0">
+<table mat-table [dataSource]="completedCourses" *ngIf="completedCourses.length > 0">
   <ng-container matColumnDef="status">
     <th mat-header-cell *matHeaderCellDef> Status </th>
     <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.status}} </td>
@@ -34,7 +34,7 @@
 <p *ngIf="completedCourses.length <= 0 && !isLoading" class="mat-body-1 info-text">No courses</p>
 
 <p>Current Courses: </p>
-<table mat-table [dataSource]="currentCourses" class="mat-elevation-z8" *ngIf="currentCourses.length > 0">
+<table mat-table [dataSource]="currentCourses"  *ngIf="currentCourses.length > 0">
   <ng-container matColumnDef="status">
     <th mat-header-cell *matHeaderCellDef> Status </th>
     <td mat-cell *matCellDef="let courseTracking"> {{courseTracking.status}} </td>
