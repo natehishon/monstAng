@@ -1,11 +1,11 @@
 <h1 class="welcome">Welcome {{userById.name}}</h1>
 
 <div class="overview-container">
-  <h3 class="semester-schedule-title">Overview</h3>
-  <div class="table-container-yo">
+  <h3 class="overview-container-title">Overview</h3>
     <table>
       <thead>
       <tr>
+        <th></th>
         <th></th>
         <th></th>
       </tr>
@@ -14,18 +14,25 @@
       <tr>
         <th>Cumulative Gpa:</th>
         <td>{{userById.gpa}}</td>
+
       </tr>
       <tr>
-        <th>Degree</th>
+        <th>Degree:</th>
         <td>{{userById.degree}}</td>
       </tr>
       <tr>
-        <th>Major</th>
+        <th>Major:</th>
         <td>{{userById.major}}</td>
       </tr>
       </tbody>
     </table>
+  <br>
+
+  <div class="progress-container">
+    <h3>Progress:</h3>
+    <mat-progress-bar [value]="(completeCourses / 30) * 100" ></mat-progress-bar>
   </div>
+
 </div>
 
 <div class="semester-container">

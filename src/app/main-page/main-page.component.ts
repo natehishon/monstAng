@@ -15,6 +15,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   private userSub: Subscription;
   public user;
   public userById;
+  public completeCourses = 0;
 
   courseTrackings: CourseTracking[] = [];
   private courseTrackingSub: Subscription;
@@ -46,7 +47,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.courseTrackingSub = this.courseTrackingService.getCourseUpdateListener()
       .subscribe((courseTrackings: CourseTracking[]) => {
         this.courseTrackings = courseTrackings;
-        console.log(this.courseTrackings);
+
+        courseTrackings.forEach(courseTracking => {
+          if (courseTracking.status === 'COMPLETE') {
+            this.completeCourses += 1;
+          }
+        });
+
       });
 
   }

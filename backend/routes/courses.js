@@ -40,17 +40,34 @@ router.put("/:id", checkAuth, (req, res, next) => {
   })
   CourseModel.updateOne({_id: req.params.id}, course).then(result => {
     console.log("updated");
-    res.status(200).json({ message: 'update success'})
+    res.status(200).json({message: 'update success'})
   });
 });
 
 router.get("", (req, res, next) => {
-  CourseModel.find().then(documents => {
-    res.status(200).json({
-      message: 'post success',
-      courses: documents
-    });
-  });
+  const pageSize = +req.query.pageSize;
+  const currentPage = +req.query.page;
+  const courseQuery = CourseModel.find();
+  let fetchedCourses;
+  if (pageSize && currentPage) {
+    courseQuery.skip(pageSize * (currentPage - 1))
+      .limit(pageSize);
+
+  }
+
+  courseQuery.then(documents => {
+    fetchedCourses = documents;
+    return CourseModel.count();
+  })
+    .then(count => {
+      res.status(200).json({
+        message: "Courses fetched",
+        courses: fetchedCourses,
+        maxCourses: count
+      })
+
+      }
+    );
 });
 
 router.get("/:id", (req, res, next) => {
@@ -70,7 +87,6 @@ router.delete("/:id", checkAuth, (req, res, next) => {
   });
 
 });
-
 
 
 module.exports = router;

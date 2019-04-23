@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { Course } from './course.model';
+import {Course} from './course.model';
 import {Router} from '@angular/router';
 
 import {environment} from '../../environments/environment';
@@ -14,17 +14,18 @@ const BACKEND_URL = environment.apiUrl + '/courses';
 export class CourseService {
   // reference type
   private courses: Course[] = [];
-  private coursesUpdated = new Subject<Course[]>();
+  private coursesUpdated = new Subject<{courses: Course[], coursesCount: number}>();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
   formatTime(date: Date) {
 
     let monthNames = [
-      "January", "February", "March",
-      "April", "May", "June", "July",
-      "August", "September", "October",
-      "November", "December"
+      'January', 'February', 'March',
+      'April', 'May', 'June', 'July',
+      'August', 'September', 'October',
+      'November', 'December'
     ];
 
     let day = date.getDate();
@@ -35,30 +36,32 @@ export class CourseService {
 
   }
 
-  getCourses() {
-    // new array
+  getCourses(coursesPerPage: number, currentPage: number) {
+    const queryParams = `?pageSize=${coursesPerPage}&page=${currentPage}`;
     this.http
-      .get<{message: string, courses: any }>(
-        BACKEND_URL
+      .get<{ message: string, courses: any, maxCourses: number }>(
+        BACKEND_URL + queryParams
       )
       .pipe(map(courseData => {
-        return courseData.courses.map(course => {
-          return {
-            name: course.name,
-            description: course.description,
-            startDate: course.startDate,
-            endDate: course.endDate,
-            program: course.program,
-            scheduleTime: course.scheduleTime,
-            credits: course.credits,
-            term: course.term,
-            id: course._id
+          return { courses: courseData.courses.map(course => {
+            return {
+              name: course.name,
+              description: course.description,
+              startDate: course.startDate,
+              endDate: course.endDate,
+              program: course.program,
+              scheduleTime: course.scheduleTime,
+              credits: course.credits,
+              term: course.term,
+              id: course._id
+            };
+          }), maxCourses: courseData.maxCourses
           };
-        });
-      }))
-      .subscribe((courseData) => {
-        this.courses = courseData;
-        this.coursesUpdated.next([...this.courses]);
+        })
+      )
+      .subscribe((transFormedCourseData) => {
+        this.courses = transFormedCourseData.courses;
+        this.coursesUpdated.next({courses: [...this.courses], coursesCount: transFormedCourseData.maxCourses });
       });
   }
 
@@ -94,8 +97,8 @@ export class CourseService {
       id: null,
       name,
       description,
-      startDate: this.formatTime(new Date (startDate)),
-      endDate: this.formatTime(new Date (endDate)),
+      startDate: this.formatTime(new Date(startDate)),
+      endDate: this.formatTime(new Date(endDate)),
       program,
       scheduleTime,
       credits,
@@ -103,10 +106,10 @@ export class CourseService {
     };
     this.http.post<{ message: string, courseId: string }>(BACKEND_URL, course)
       .subscribe(responseData => {
-        const id = responseData.courseId;
-        course.id = id;
-        this.courses.push(course);
-        this.coursesUpdated.next([...this.courses]);
+        // const id = responseData.courseId;
+        // course.id = id;
+        // this.courses.push(course);
+        // this.coursesUpdated.next([...this.courses]);
         this.router.navigate(['/']);
       });
   }
@@ -126,8 +129,8 @@ export class CourseService {
       id,
       name,
       description,
-      startDate: this.formatTime(new Date (startDate)),
-      endDate: this.formatTime(new Date (endDate)),
+      startDate: this.formatTime(new Date(startDate)),
+      endDate: this.formatTime(new Date(endDate)),
       program,
       scheduleTime,
       credits,
@@ -136,22 +139,17 @@ export class CourseService {
     this.http
       .put(BACKEND_URL + '/' + id, course)
       .subscribe(response => {
-        const updatedCourses = [...this.courses];
-        const oldCourseIndex = updatedCourses.findIndex(c => c.id === course.id);
-        updatedCourses[oldCourseIndex] = course;
-        this.courses = updatedCourses;
-        this.coursesUpdated.next([...this.courses]);
+        // const updatedCourses = [...this.courses];
+        // const oldCourseIndex = updatedCourses.findIndex(c => c.id === course.id);
+        // updatedCourses[oldCourseIndex] = course;
+        // this.courses = updatedCourses;
+        // this.coursesUpdated.next([...this.courses]);
         this.router.navigate(['/']);
       });
   }
 
   deleteCourse(courseId: string) {
-    this.http.delete(BACKEND_URL + '/' + courseId)
-      .subscribe(() => {
-        const updatedCourses = this.courses.filter(course => course.id !== courseId);
-        this.courses = updatedCourses;
-        this.coursesUpdated.next([...this.courses]);
-      });
+    return this.http.delete(BACKEND_URL + '/' + courseId);
   }
 
 

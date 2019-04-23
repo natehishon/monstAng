@@ -1,25 +1,36 @@
 .welcome {
   margin: 30px 0;
   font-size: 25px;
-  font-weight: 400;
-  padding: 10px; }
-
-.semester-schedule-title {
-  font-size: 22px;
-  font-weight: 700;
-  padding: 10px;
-  margin: 10px 0; }
+  font-weight: 400; }
 
 .overview-container {
   margin: 30px 0; }
-  .overview-container .table-container-yo {
-    width: 400px;
-    padding: 10px; }
-    .overview-container .table-container-yo table {
-      width: 100%;
-      table-layout: fixed; }
+  .overview-container .overview-container-title {
+    font-size: 22px;
+    font-weight: 700;
+    padding: 10px 0;
+    margin: 10px 0; }
+  .overview-container table {
+    width: 100%;
+    table-layout: fixed;
+    text-align: left; }
+  .overview-container .progress-container {
+    width: 60%; }
+    .overview-container .progress-container h3 {
+      margin: 15px 0; }
+    .overview-container .progress-container mat-progress-bar {
+      height: 20px; }
 
 .semester-container {
-  margin: 30px 0; }
+  margin: 30px 0 100px; }
+  .semester-container .semester-schedule-title {
+    font-size: 22px;
+    font-weight: 700;
+    padding: 10px 0;
+    margin: 10px 0; }
+  .semester-container table {
+    width: 100%;
+    table-layout: fixed;
+    text-align: left; }
 
 /*# sourceMappingURL=main-page.component.css.map */

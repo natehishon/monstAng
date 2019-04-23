@@ -1,18 +1,67 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-accordion *ngIf="courses.length > 0 && !isLoading">
-  <mat-expansion-panel *ngFor="let course of courses">
-    <mat-expansion-panel-header>
-      {{ course.name }}
-    </mat-expansion-panel-header>
-    <p>Description: {{ course.description }}</p>
-    <p>Start Date: {{ course.startDate }}</p>
-    <p>End Date: {{ course.endDate }}</p>
-    <p>Program of Study: {{ course.program }}</p>
-    <mat-action-row *ngIf="userIsAuthenticated">
+<!--<mat-accordion *ngIf="courses.length > 0 && !isLoading">-->
+  <!--<mat-expansion-panel *ngFor="let course of courses">-->
+    <!--<mat-expansion-panel-header>-->
+      <!--{{ course.name }}-->
+    <!--</mat-expansion-panel-header>-->
+    <!--<p>Description: {{ course.description }}</p>-->
+    <!--<p>Start Date: {{ course.startDate }}</p>-->
+    <!--<p>End Date: {{ course.endDate }}</p>-->
+    <!--<p>Program of Study: {{ course.program }}</p>-->
+    <!--<mat-action-row *ngIf="userIsAuthenticated">-->
+      <!--<a mat-button color="accent" [routerLink]="['/enroll', course.id]" >ENROLL</a>-->
+      <!--<a mat-button color="accent" [routerLink]="['/edit', course.id]"*ngIf="userIsAdmin" >EDIT</a>-->
+      <!--<button mat-button color="warn" (click)="onDelete(course.id)" *ngIf="userIsAdmin">DELETE</button>-->
+    <!--</mat-action-row>-->
+  <!--</mat-expansion-panel>-->
+<!--</mat-accordion>-->
+
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" class="course-table">
+
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Course Name </th>
+    <td mat-cell *matCellDef="let course"> {{course.name}} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="program">
+    <th mat-header-cell *matHeaderCellDef> Program </th>
+    <td mat-cell *matCellDef="let course"> {{course.program}} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="credits">
+    <th mat-header-cell *matHeaderCellDef> Credits </th>
+    <td mat-cell *matCellDef="let course"> {{course.credits}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="term">
+    <th mat-header-cell *matHeaderCellDef> Term </th>
+    <td mat-cell *matCellDef="let course"> {{course.term}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>  &nbsp;Action </th>
+    <td mat-cell *matCellDef="let course">
+      <div *ngIf="userIsAuthenticated">
       <a mat-button color="accent" [routerLink]="['/enroll', course.id]" >ENROLL</a>
       <a mat-button color="accent" [routerLink]="['/edit', course.id]"*ngIf="userIsAdmin" >EDIT</a>
       <button mat-button color="warn" (click)="onDelete(course.id)" *ngIf="userIsAdmin">DELETE</button>
-    </mat-action-row>
-  </mat-expansion-panel>
-</mat-accordion>
+      </div>
+    </td>
+  </ng-container>
+
+
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<br>
+<mat-paginator [length]="totalCourses" [pageSize]="coursesPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangedPage($event)"></mat-paginator>
 <p *ngIf="courses.length <= 0 && !isLoading" class="mat-body-1 info-text">No courses</p>

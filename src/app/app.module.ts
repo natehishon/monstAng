@@ -9,7 +9,14 @@ import {
   MatButtonModule,
   MatToolbarModule,
   MatExpansionModule,
-  MatProgressSpinnerModule, MatDatepicker, MatDatepickerToggle, MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatTableModule
+  MatProgressSpinnerModule,
+  MatDatepicker,
+  MatDatepickerToggle,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatSelectModule,
+  MatTableModule,
+  MatPaginatorModule, MatProgressBarModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -56,7 +63,9 @@ import {UserEditComponent} from './users/user-edit/user-edit.component';
     MatNativeDateModule,
     MatSelectModule,
     MatTableModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule,
+    MatProgressBarModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
