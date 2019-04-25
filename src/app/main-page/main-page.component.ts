@@ -18,6 +18,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   public completeCourses = 0;
 
   courseTrackings: CourseTracking[] = [];
+  currentCourseTrackings: CourseTracking[] = [];
   private courseTrackingSub: Subscription;
 
   constructor(private authService: AuthService, private courseTrackingService: CourseTrackingService) {}
@@ -51,6 +52,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
         courseTrackings.forEach(courseTracking => {
           if (courseTracking.status === 'COMPLETE') {
             this.completeCourses += 1;
+          } else {
+            console.log(courseTracking);
+            this.currentCourseTrackings.push(courseTracking);
           }
         });
 
