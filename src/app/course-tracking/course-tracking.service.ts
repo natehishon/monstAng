@@ -61,12 +61,9 @@ export class CourseTrackingService {
       scheduleTime
     }
 
-    console.log('2');
 
     this.http.post<{courseId: string, courseName: string, program: string, term: string, credits: number, scheduleTime: string }>(BACKEND_URL, course)
       .subscribe(responseData => {
-        console.log("successss");
-        console.log(responseData);
         this.router.navigate(['courseTrackings']);
         // const id = responseData.courseId;
         // course.id = id;

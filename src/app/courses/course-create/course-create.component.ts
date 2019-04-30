@@ -55,8 +55,6 @@ export class CourseCreateComponent implements OnInit {
 
   onSaveCourse(form: NgForm) {
 
-    console.log('form');
-    console.log(form.value);
 
 
     if (form.invalid) {

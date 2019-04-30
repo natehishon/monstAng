@@ -29,7 +29,6 @@ export class CourseTrackingListComponent implements OnInit, OnDestroy {
       .subscribe((courseTrackings: CourseTracking[]) => {
       this.isLoading = false;
       this.courseTrackings = courseTrackings;
-      console.log(this.courseTrackings);
       this.completedCourses = courseTrackings.filter(courseTracking => courseTracking.status === 'COMPLETE');
       this.currentCourses = courseTrackings.filter(courseTracking => courseTracking.status === 'ACTIVE');
 

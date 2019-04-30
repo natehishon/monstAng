@@ -41,7 +41,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
         major: userData.major,
         degree: userData.degree,
         gpa: userData.gpa};
-      console.log(this.user);
     });
 
     this.courseTrackingService.getCourseTrackings();
@@ -53,7 +52,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
           if (courseTracking.status === 'COMPLETE') {
             this.completeCourses += 1;
           } else {
-            console.log(courseTracking);
             this.currentCourseTrackings.push(courseTracking);
           }
         });

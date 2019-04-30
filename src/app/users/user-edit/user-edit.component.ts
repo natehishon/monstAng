@@ -53,7 +53,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
             degree: userData.degree,
             gpa: userData.gpa
           };
-          console.log(this.user);
         });
       } else {
         // throw error

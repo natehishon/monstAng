@@ -1,3 +1,8 @@
-
+mat-card {
+  width: 35%;
+  margin: 0 auto; }
+  mat-card form {
+    text-align: center;
+    margin: 0 auto; }
 
 /*# sourceMappingURL=user-edit.component.css.map */

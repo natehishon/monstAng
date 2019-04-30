@@ -18,7 +18,6 @@ router.get("/:id", (req, res, next) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  console.log(req.body.email);
   bcrypt.hash(req.body.password, 10).then(hash => {
     const user = new User({
       email: req.body.email,
@@ -100,7 +99,6 @@ router.put("/:id", (req, res, next) => {
     gpa: req.body.gpa
   })
   User.updateOne({_id: req.params.id}, user).then(result => {
-    console.log("updated");
     res.status(200).json({ message: 'update success'})
   });
 });

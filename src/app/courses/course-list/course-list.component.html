@@ -17,7 +17,8 @@
 <!--</mat-accordion>-->
 
 <mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  <!--<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">-->
+  <input matInput (keyup)="search($event.target.value)" placeholder="Search">
 </mat-form-field>
 
 <table mat-table [dataSource]="dataSource" class="course-table">
@@ -63,5 +64,5 @@
 </table>
 
 <br>
-<mat-paginator [length]="totalCourses" [pageSize]="coursesPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangedPage($event)"></mat-paginator>
+<mat-paginator [length]="totalCourses" [pageSize]="coursesPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangedPage($event)" [pageIndex]="currentPage"></mat-paginator>
 <p *ngIf="courses.length <= 0 && !isLoading" class="mat-body-1 info-text">No courses</p>

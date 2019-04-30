@@ -17,8 +17,9 @@ export class CourseListComponent implements OnInit, OnDestroy {
   isLoading = false;
   totalCourses = 0;
   coursesPerPage = 5;
-  currentPage = 1;
+  currentPage = 0;
   pageSizeOptions = [5, 10];
+  searchValue = '';
   private courseSub: Subscription;
   private authStatusSub: Subscription;
   private adminStatusSub: Subscription;
@@ -32,18 +33,28 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  search(searchValue: string) {
+    this.searchValue = searchValue;
+    this.courseService.getCourses(this.coursesPerPage, 1, this.searchValue);
+    this.totalCourses = this.courses.length;
+    // this.currentPage = 1;
+
+  }
+
   // public keyword will auto create a new prop and fill it
   constructor(public courseService: CourseService, private authService: AuthService) {}
 
   onChangedPage(pageData: PageEvent) {
-    this.currentPage = pageData.pageIndex + 1;
+
+    this.currentPage = pageData.pageIndex;
     this.coursesPerPage = pageData.pageSize;
-    this.courseService.getCourses(this.coursesPerPage, this.currentPage);
+    this.courseService.getCourses(this.coursesPerPage, this.currentPage + 1, this.searchValue);
+
 
   }
 
   ngOnInit() {
-    this.courseService.getCourses(this.coursesPerPage, 1);
+    this.courseService.getCourses(this.coursesPerPage, 1, this.searchValue);
     this.isLoading = true;
     this.courseSub = this.courseService.getCourseUpdateListener()
       .subscribe((courseData: {courses: Course[], coursesCount: number} ) => {
@@ -68,7 +79,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   onDelete(courseId: string) {
     this.courseService.deleteCourse(courseId).subscribe(() => {
-      this.courseService.getCourses(this.coursesPerPage, this.currentPage);
+      this.courseService.getCourses(this.coursesPerPage, this.currentPage, this.searchValue);
     });
   }
 

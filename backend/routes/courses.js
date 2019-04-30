@@ -39,7 +39,6 @@ router.put("/:id", checkAuth, (req, res, next) => {
     term: req.body.term
   })
   CourseModel.updateOne({_id: req.params.id}, course).then(result => {
-    console.log("updated");
     res.status(200).json({message: 'update success'})
   });
 });
@@ -47,16 +46,27 @@ router.put("/:id", checkAuth, (req, res, next) => {
 router.get("", (req, res, next) => {
   const pageSize = +req.query.pageSize;
   const currentPage = +req.query.page;
-  const courseQuery = CourseModel.find();
+  const searchValue = req.query.searchValue.toString();
+  var query = {$or:[{name:{$regex: searchValue, $options: 'i'}},
+      {program:{$regex: searchValue, $options: 'i'}}, {term:{$regex: searchValue, $options: 'i'}}]}
+  ;
+  const courseQuery = CourseModel.find(query);
   let fetchedCourses;
+
   if (pageSize && currentPage) {
     courseQuery.skip(pageSize * (currentPage - 1))
       .limit(pageSize);
-
   }
+
 
   courseQuery.then(documents => {
     fetchedCourses = documents;
+
+
+    if(fetchedCourses.length < 5){
+      return fetchedCourses.length;
+    }
+
     return CourseModel.count();
   })
     .then(count => {
@@ -82,7 +92,6 @@ router.get("/:id", (req, res, next) => {
 
 router.delete("/:id", checkAuth, (req, res, next) => {
   CourseModel.deleteOne({_id: req.params.id}).then(result => {
-    console.log(result);
     res.status(200).json({message: 'deleted'});
   });
 

@@ -36,8 +36,9 @@ export class CourseService {
 
   }
 
-  getCourses(coursesPerPage: number, currentPage: number) {
-    const queryParams = `?pageSize=${coursesPerPage}&page=${currentPage}`;
+  getCourses(coursesPerPage: number, currentPage: number, searchString: string) {
+
+    const queryParams = `?pageSize=${coursesPerPage}&page=${currentPage}&searchValue=${searchString}`;
     this.http
       .get<{ message: string, courses: any, maxCourses: number }>(
         BACKEND_URL + queryParams
@@ -61,6 +62,7 @@ export class CourseService {
       )
       .subscribe((transFormedCourseData) => {
         this.courses = transFormedCourseData.courses;
+
         this.coursesUpdated.next({courses: [...this.courses], coursesCount: transFormedCourseData.maxCourses });
       });
   }

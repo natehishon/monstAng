@@ -42,20 +42,15 @@ export class CourseTrackingCreateComponent implements OnInit {
             credits: courseData.credits,
             term: courseData.term
           };
-          console.log(this.course);
         });
 
         this.courseTrackingService.getCourseTracking(this.courseId).subscribe(courseTrackingData => {
           if (courseTrackingData.courseTracking.length > 0 ) {
-            console.log("courseTrackingData");
-            console.log(courseTrackingData);
             this.isEnrolled = true;
           }
         });
 
         // this.userListenerSubs = this.authService.getUserIdListener().subscribe(userId => {
-        //   console.log('hey');
-        //   console.log(userId);
         //   this.userId = userId;
         // });
       } else {
@@ -65,7 +60,6 @@ export class CourseTrackingCreateComponent implements OnInit {
   }
 
   enroll() {
-    console.log('trying to enroll');
     this.courseTrackingService.enroll(this.courseId, this.course.name, this.course.program, this.course.term, this.course.credits, this.course.scheduleTime);
   }
 
